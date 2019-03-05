@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="demo.dao.blogMapper">
+  <resultMap id="BaseResultMap" type="demo.pojo.blog">
+    <constructor>
+      <idArg column="blog_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="class_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="blog_title" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="blog_label" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="view_times" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="create_time" javaType="java.util.Date" jdbcType="DATE" />
+    </constructor>
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="demo.pojo.blog">
+    <constructor>
+      <idArg column="blog_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="class_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="blog_title" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="blog_label" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="view_times" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="create_time" javaType="java.util.Date" jdbcType="DATE" />
+      <arg column="blog_content" javaType="java.lang.String" jdbcType="LONGVARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    blog_id, user_id, class_id, blog_title, blog_label, view_times, create_time
+  </sql>
+  <sql id="Blob_Column_List">
+    blog_content
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from blog
+    where blog_id = #{blogId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from blog
+    where blog_id = #{blogId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="demo.pojo.blog">
+    insert into blog (blog_id, user_id, class_id, 
+      blog_title, blog_label, view_times, 
+      create_time, blog_content)
+    values (#{blogId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{classId,jdbcType=INTEGER}, 
+      #{blogTitle,jdbcType=VARCHAR}, #{blogLabel,jdbcType=VARCHAR}, #{viewTimes,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=DATE}, #{blogContent,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="demo.pojo.blog">
+    insert into blog
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="blogId != null">
+        blog_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="classId != null">
+        class_id,
+      </if>
+      <if test="blogTitle != null">
+        blog_title,
+      </if>
+      <if test="blogLabel != null">
+        blog_label,
+      </if>
+      <if test="viewTimes != null">
+        view_times,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="blogContent != null">
+        blog_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="blogId != null">
+        #{blogId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="classId != null">
+        #{classId,jdbcType=INTEGER},
+      </if>
+      <if test="blogTitle != null">
+        #{blogTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="blogLabel != null">
+        #{blogLabel,jdbcType=VARCHAR},
+      </if>
+      <if test="viewTimes != null">
+        #{viewTimes,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=DATE},
+      </if>
+      <if test="blogContent != null">
+        #{blogContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="demo.pojo.blog">
+    update blog
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="classId != null">
+        class_id = #{classId,jdbcType=INTEGER},
+      </if>
+      <if test="blogTitle != null">
+        blog_title = #{blogTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="blogLabel != null">
+        blog_label = #{blogLabel,jdbcType=VARCHAR},
+      </if>
+      <if test="viewTimes != null">
+        view_times = #{viewTimes,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=DATE},
+      </if>
+      <if test="blogContent != null">
+        blog_content = #{blogContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where blog_id = #{blogId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="demo.pojo.blog">
+    update blog
+    set user_id = #{userId,jdbcType=INTEGER},
+      class_id = #{classId,jdbcType=INTEGER},
+      blog_title = #{blogTitle,jdbcType=VARCHAR},
+      blog_label = #{blogLabel,jdbcType=VARCHAR},
+      view_times = #{viewTimes,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=DATE},
+      blog_content = #{blogContent,jdbcType=LONGVARCHAR}
+    where blog_id = #{blogId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="demo.pojo.blog">
+    update blog
+    set user_id = #{userId,jdbcType=INTEGER},
+      class_id = #{classId,jdbcType=INTEGER},
+      blog_title = #{blogTitle,jdbcType=VARCHAR},
+      blog_label = #{blogLabel,jdbcType=VARCHAR},
+      view_times = #{viewTimes,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=DATE}
+    where blog_id = #{blogId,jdbcType=INTEGER}
+  </update>
+  <insert id="insertBlog" parameterType="demo.pojo.blog">
+    insert into blog (user_id, class_id,
+      blog_title, blog_label,
+      create_time, blog_content)
+    values ( #{userId,jdbcType=INTEGER}, #{classId,jdbcType=INTEGER},
+      #{blogTitle,jdbcType=VARCHAR}, #{blogLabel,jdbcType=VARCHAR},
+      now(), #{blogContent,jdbcType=LONGVARCHAR})
+  </insert>
+  <select id="selectByUserId" resultType="int">
+    select count(1)
+    from blog
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+  <select id="selectBlogByUserIdAndClassId"  resultType="demo.pojo.blog">
+    select
+    <include refid="Base_Column_List" />
+    from blog
+    where user_id = #{userId,jdbcType=INTEGER}
+    AND class_id = #{classId,jdbcType=INTEGER}
+  </select>
+</mapper>
